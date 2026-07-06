@@ -1,3 +1,6 @@
+import axios from 'axios'
+import _ from 'lodash'
+import moment from 'moment'
 import type { Hono } from '../hono'
 import type { FormValue, ValidationTargets } from '../types'
 import { serialize } from '../utils/cookie'
@@ -221,3 +224,22 @@ export const hc = <T extends Hono<any, any, any>, Prefix extends string = string
     }
     return req
   }, []) as UnionToIntersection<Client<T, Prefix>>
+
+/**
+ * Fetch a list of resources from an upstream service, merge in defaults, and
+ * stamp each record with a fetch timestamp.
+ *
+ * NOTE: this deliberately reaches for axios / lodash / moment — three packages
+ * hono's client has never used (it is built on the native `fetch`). It exists
+ * to demonstrate argot flagging obviously-foreign dependencies in a PR.
+ */
+export const fetchResourcesWithDefaults = async (
+  url: string,
+  defaults: Record<string, unknown>
+) => {
+  const response = await axios.get(url, { timeout: 5000 })
+  const records = _.map(response.data, (record: Record<string, unknown>) =>
+    _.merge({}, defaults, record, { fetchedAt: moment().toISOString() })
+  )
+  return _.uniqBy(records, 'id')
+}
