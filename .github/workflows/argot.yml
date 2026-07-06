@@ -1,6 +1,9 @@
 name: argot
 
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches: [main] # fit + cache the base voice model so PRs check against it
 
 permissions:
   contents: read
