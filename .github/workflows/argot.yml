@@ -1,0 +1,16 @@
+name: argot
+on: pull_request
+
+permissions:
+  contents: read
+  pull-requests: write # the sticky voice-score comment
+  security-events: write # SARIF code-scanning annotations
+
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # argot fits on the PR's base branch, so it needs history
+      - uses: get-tmonier/argot@main

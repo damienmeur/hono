@@ -1,0 +1,5 @@
+# Multi-runtime integration test harness (vitest configs, mocks, worker entrypoints) — scaffolding, not the library's authored voice
+runtime-tests/
+
+# Bundle-size / type-check perf tooling (includes an app-codegen script) — dev tooling, not shipped source
+perf-measures/
