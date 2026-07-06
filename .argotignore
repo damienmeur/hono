@@ -1,0 +1,14 @@
+# .argotignore — layered on top of argot:recommended.
+# argot:recommended already skips docs/, benchmarks/, build/ and *.test.ts /
+# *.config.ts files, so hono's docs/, benchmarks/, build/ and co-located
+# *.test.ts specs need no entry here. These are the hono-specific dirs
+# argot:recommended does NOT cover, and that shouldn't shape the library's voice:
+
+# Cross-runtime integration test harnesses (bun/deno/node/workerd/lambda/…).
+# The *.test.ts files are already dropped, but the harness code (mock.ts,
+# stream-mock.ts, index.ts, vitest configs) is test scaffolding, not library voice.
+runtime-tests/
+
+# Performance-measurement tooling and scripts (bundle-size / type-check probes).
+# Dev tooling that ships nothing — not how the core library is written.
+perf-measures/
